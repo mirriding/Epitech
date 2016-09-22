@@ -5,24 +5,7 @@ from pyrser.parsing import node
 import collections
 from pprint import pprint
 
-TOKEN = bytes("anCgqsB5a6fDJfrNTqP5DKcoSsPnX4", 'utf-8')
-USER = bytes("u93cYDzrtQjWcFxEZKhwjTiuz4zW28", 'utf-8')
-DEVICE = bytes("HTC m8 one", 'utf-8')
 TABULATION = 4
-
-def notify():
-    message = bytes("new test for dumbXml.py from 00h43 version", 'utf-8')
-    mydata = {
-        'token': TOKEN,
-        'user': USER,
-        'device': DEVICE,
-        'message': message
-    }
-    req = Request("https://api.pushover.net/1/messages.json", urlencode(mydata).encode('utf-8'))
-    req.add_header(bytes("Content-type", 'utf-8'), bytes("application/x-www-form-urlencoded", 'utf-8'))
-    return urlopen(req).read()
-
-test = False
 
 @meta.add_method(node.Node)
 def to_dxml(self, name='.root', tab=0):
@@ -32,13 +15,6 @@ def to_dxml(self, name='.root', tab=0):
     :param tab: tabulation in our result
     :return: our xml string created
     '''
-    try:
-        global test
-        if test == False:
-            notify()
-            test = True
-    except BaseException:
-        pass
     items = collections.OrderedDict(sorted(vars(self).items()))
 #    for k,v in items.items():
 #        print("key: %s - value: %s - type: %s" % (k, v, type(v)))
